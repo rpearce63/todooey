@@ -7,17 +7,18 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListVC: UITableViewController {
 
     var todoItemsArray = [Item]()
     
     let defaults = UserDefaults.standard
-    
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         loadItems()
     }
@@ -25,23 +26,20 @@ class TodoListVC: UITableViewController {
     
     // MARK: View Actions
     func saveItems() {
-        let encoder = PropertyListEncoder()
+        
         do {
-            let data = try encoder.encode(self.todoItemsArray)
-            try data.write(to: self.dataFilePath!)
+            try context.save()
         } catch {
             print(error)
         }
     }
     
     func loadItems() {
-        if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-                todoItemsArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print(error)
-            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            todoItemsArray =  try context.fetch(request)
+        } catch {
+            print(error)
         }
     }
     
@@ -58,7 +56,8 @@ class TodoListVC: UITableViewController {
         
         let addAction = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
-            let newItem = Item()
+            let newItem = Item(context: self.context)
+            
             newItem.title = newItemTextField.text!
             self.todoItemsArray.append(newItem)
             
