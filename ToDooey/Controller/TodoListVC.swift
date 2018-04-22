@@ -14,29 +14,37 @@ class TodoListVC: UITableViewController {
     
     let defaults = UserDefaults.standard
     
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var newItem = Item()
-        newItem.title = "Find Mike"
-        todoItemsArray.append(newItem)
-        
-        var newItem2 = Item()
-        newItem2.title = "Buy Eggos"
-        todoItemsArray.append(newItem2)
-        
-        var newItem3 = Item()
-        newItem3.title = "Destroy Demogorgon"
-        todoItemsArray.append(newItem3)
-        
-        if let items = UserDefaults.standard.array(forKey: "TodoListArray") as? [Item] {
-            todoItemsArray = items
-        }
-        
+        loadItems()
     }
 
     
     // MARK: View Actions
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        do {
+            let data = try encoder.encode(self.todoItemsArray)
+            try data.write(to: self.dataFilePath!)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                todoItemsArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
     @IBAction func addBtnPressed(_ sender: UIBarButtonItem) {
         
         var newItemTextField  = UITextField()
@@ -50,11 +58,11 @@ class TodoListVC: UITableViewController {
         
         let addAction = UIAlertAction(title: "Add Item", style: .default) { (action) in
             
-            var newItem = Item()
+            let newItem = Item()
             newItem.title = newItemTextField.text!
             self.todoItemsArray.append(newItem)
             
-            self.defaults.set(self.todoItemsArray, forKey: "TodoListArray")
+            self.saveItems()
             self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action) in
@@ -90,7 +98,7 @@ class TodoListVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         todoItemsArray[indexPath.row].done = !todoItemsArray[indexPath.row].done
-
+        saveItems()
         tableView.reloadData()
         
         tableView.deselectRow(at: indexPath, animated: true)
