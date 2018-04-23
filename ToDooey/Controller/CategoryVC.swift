@@ -17,7 +17,7 @@ class CategoryVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchData()
+        loadData()
     }
     
     //MARK: - Tableview Datasource methods
@@ -32,7 +32,8 @@ class CategoryVC: UITableViewController {
     }
     
     //MARK: - Data Manipulation methods
-    func fetchData(with request: NSFetchRequest<Category> = Category.fetchRequest()) {
+    func loadData() {
+        let request : NSFetchRequest<Category> = Category.fetchRequest()
         do {
             categories = try context.fetch(request) 
         } catch {
@@ -65,7 +66,7 @@ class CategoryVC: UITableViewController {
         
         let saveAction = UIAlertAction(title: "Save", style: .default) { (action) in
             let newCategory = Category(context: self.context)
-            newCategory.name = alertTextField.text
+            newCategory.name = alertTextField.text!
             self.categories.append(newCategory)
             self.saveData()
         }
@@ -74,13 +75,21 @@ class CategoryVC: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
-    
-    
+   
     
     //MARK - Tableview Delegate methods
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToItems", sender: self)
+    }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! TodoListVC
+        
+        if let indexPath = tableView.indexPathForSelectedRow {
+            destination.selectedCategory = categories[indexPath.row]
+        }
+    }
     
     
     
