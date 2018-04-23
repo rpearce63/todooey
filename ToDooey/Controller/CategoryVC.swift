@@ -7,44 +7,62 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryVC: UITableViewController {
 
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    let realm = try! Realm()
     
-    var categories = [Category]()
+    //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    var categories : Results<Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         loadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tableView.backgroundView = setGradientBackground()
+    }
+    
+    func setGradientBackground() -> UIView {
+        let view = UIView()
+        view.frame = tableView.bounds
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor.blue.cgColor, UIColor.cyan.cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.frame = tableView.bounds
+        
+        view.layer.addSublayer(gradientLayer)
+        return view
+    }
+    
     //MARK: - Tableview Datasource methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        return categories?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = categories[indexPath.row].name
+        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
         return cell
     }
     
     //MARK: - Data Manipulation methods
     func loadData() {
-        let request : NSFetchRequest<Category> = Category.fetchRequest()
-        do {
-            categories = try context.fetch(request) 
-        } catch {
-            print(error)
-        }
+        categories = realm.objects(Category.self)
         tableView.reloadData()
     }
     
-    func saveData() {
+    func saveData(category: Category) {
         do {
-            try context.save()
+            try realm.write {
+                realm.add(category)
+            }
         } catch {
             print(error)
         }
@@ -64,11 +82,11 @@ class CategoryVC: UITableViewController {
             alertTextField = textField
         }
         
-        let saveAction = UIAlertAction(title: "Save", style: .default) { (action) in
-            let newCategory = Category(context: self.context)
+        let saveAction = UIAlertAction(title: "Add", style: .default) { (action) in
+            let newCategory = Category()
             newCategory.name = alertTextField.text!
-            self.categories.append(newCategory)
-            self.saveData()
+            
+            self.saveData(category: newCategory)
         }
         
         alert.addAction(saveAction)
@@ -84,10 +102,10 @@ class CategoryVC: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destination = segue.destination as! TodoListVC
+        let destinationVC = segue.destination as! TodoListVC
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destination.selectedCategory = categories[indexPath.row]
+            destinationVC.selectedCategory = categories![indexPath.row]
         }
     }
     
