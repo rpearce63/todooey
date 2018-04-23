@@ -32,15 +32,16 @@ class TodoListVC: UITableViewController {
         } catch {
             print(error)
         }
+        tableView.reloadData()
     }
     
-    func loadItems() {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         do {
             todoItemsArray =  try context.fetch(request)
         } catch {
             print(error)
         }
+        tableView.reloadData()
     }
     
     @IBAction func addBtnPressed(_ sender: UIBarButtonItem) {
@@ -62,7 +63,6 @@ class TodoListVC: UITableViewController {
             self.todoItemsArray.append(newItem)
             
             self.saveItems()
-            self.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .default) { (action) in
             addItemAlert.dismiss(animated: true, completion: nil)
@@ -97,11 +97,53 @@ class TodoListVC: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         todoItemsArray[indexPath.row].done = !todoItemsArray[indexPath.row].done
+        
         saveItems()
-        tableView.reloadData()
         
         tableView.deselectRow(at: indexPath, animated: true)
         
     }
+    
+    
 }
+
+//MARK: Search bar methods
+
+extension TodoListVC: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text! )
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == "" {
+            loadItems()
+            
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+            
+        }
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
 
