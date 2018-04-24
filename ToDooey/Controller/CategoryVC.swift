@@ -24,21 +24,7 @@ class CategoryVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.backgroundView = setGradientBackground()
-    }
-    
-    func setGradientBackground() -> UIView {
-        let view = UIView()
-        view.frame = tableView.bounds
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.blue.cgColor, UIColor.cyan.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        gradientLayer.frame = tableView.bounds
-        
-        view.layer.addSublayer(gradientLayer)
-        return view
+        self.tableView.backgroundView = view.setGradientBackground()
     }
     
     //MARK: - Tableview Datasource methods

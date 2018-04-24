@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1DB5AE50208D7BF400F71DF0 /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB5AE4F208D7BF400F71DF0 /* CategoryVC.swift */; };
+		1DB5AE52208EE44F00F71DF0 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB5AE51208EE44F00F71DF0 /* GradientView.swift */; };
 		1DCCBFE7208B9DB80038BF3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBFE6208B9DB80038BF3A /* AppDelegate.swift */; };
 		1DCCBFE9208B9DB80038BF3A /* TodoListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCCBFE8208B9DB80038BF3A /* TodoListVC.swift */; };
 		1DCCBFEC208B9DB80038BF3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DCCBFEA208B9DB80038BF3A /* Main.storyboard */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		1DB5AE4F208D7BF400F71DF0 /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
+		1DB5AE51208EE44F00F71DF0 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		1DCCBFE3208B9DB80038BF3A /* ToDooey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDooey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DCCBFE6208B9DB80038BF3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DCCBFE8208B9DB80038BF3A /* TodoListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListVC.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				1DCCBFEA208B9DB80038BF3A /* Main.storyboard */,
+				1DB5AE51208EE44F00F71DF0 /* GradientView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			files = (
 				4D518358208E678900CD9D07 /* Item.swift in Sources */,
 				1DCCBFE9208B9DB80038BF3A /* TodoListVC.swift in Sources */,
+				1DB5AE52208EE44F00F71DF0 /* GradientView.swift in Sources */,
 				1DB5AE50208D7BF400F71DF0 /* CategoryVC.swift in Sources */,
 				1DCCBFE7208B9DB80038BF3A /* AppDelegate.swift in Sources */,
 				4D51835A208E679800CD9D07 /* Category.swift in Sources */,

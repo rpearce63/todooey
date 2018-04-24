@@ -23,23 +23,10 @@ class TodoListVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundView = setGradientBackground()
+        self.tableView.backgroundView = view.setGradientBackground()
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
 
-    func setGradientBackground() -> UIView {
-        let view = UIView()
-        view.frame = tableView.bounds
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.blue.cgColor, UIColor.cyan.cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
-        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
-        gradientLayer.frame = tableView.bounds
-        
-        view.layer.addSublayer(gradientLayer)
-        return view
-    }
     
     // MARK: View Actions
     
