@@ -11,8 +11,11 @@ import RealmSwift
 
 class TodoListVC: UITableViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    var tableViewHeaderView : UIView?
+    
     var todoItems : Results<Item>?
-    let realm = try! Realm()
+    lazy var realm = try! Realm()
     
     
     var selectedCategory : Category? {
@@ -24,6 +27,7 @@ class TodoListVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.backgroundView = view.setGradientBackground()
+        tableViewHeaderView = self.tableView.tableHeaderView
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
 
@@ -32,7 +36,7 @@ class TodoListVC: UITableViewController {
     
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
-        
+    
         tableView.reloadData()
     }
     
@@ -89,13 +93,17 @@ class TodoListVC: UITableViewController {
         let count = todoItems?.count ?? 0
         if count > 0 {
             let item = todoItems![indexPath.row]
-            cell.textLabel?.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             cell.textLabel?.text = item.title
             cell.accessoryType = item.done ? .checkmark : .none
         } else {
             cell.textLabel?.text = "No Items Added"
         }
-        
+        cell.textLabel?.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        if count == 0 {
+            self.tableView.tableHeaderView = nil
+        } else {
+            self.tableView.tableHeaderView = tableViewHeaderView
+        }
         return cell
     }
     

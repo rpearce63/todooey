@@ -11,7 +11,7 @@ import RealmSwift
 
 class CategoryVC: UITableViewController {
 
-    let realm = try! Realm()
+    lazy var realm = try! Realm()
     
     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
