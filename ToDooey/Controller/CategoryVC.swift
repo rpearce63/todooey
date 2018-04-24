@@ -24,17 +24,20 @@ class CategoryVC: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tableView.backgroundView = view.setGradientBackground()
+        //self.tableView.backgroundView = view.setGradientBackground()
     }
     
     //MARK: - Tableview Datasource methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 1
+        let count = categories?.count ?? 1
+        return count == 0 ? 1 : count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.textLabel?.text = categories?[indexPath.row].name ?? "No Categories Added Yet"
+        let count = categories?.count ?? 1
+        cell.textLabel?.text = count > 0 ? categories?[indexPath.row].name : "No Categories Added Yet"
+        cell.backgroundColor = view.getRandomColor()
         return cell
     }
     
@@ -95,6 +98,18 @@ class CategoryVC: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            do {
+               try realm.write {
+                    realm.delete(categories![indexPath.row])
+                }
+            } catch {
+                print(error)
+            }
+        }
+        tableView.reloadData()
+    }
     
     
 }

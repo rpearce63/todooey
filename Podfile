@@ -7,5 +7,5 @@ target 'ToDooey' do
 
   # Pods for ToDooey
 pod "RealmSwift"
-
+pod "ChameleonFramework/Swift"
 end

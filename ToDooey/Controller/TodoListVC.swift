@@ -26,7 +26,7 @@ class TodoListVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundView = view.setGradientBackground()
+        //self.tableView.backgroundView = view.setGradientBackground()
         tableViewHeaderView = self.tableView.tableHeaderView
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
@@ -98,7 +98,7 @@ class TodoListVC: UITableViewController {
         } else {
             cell.textLabel?.text = "No Items Added"
         }
-        cell.textLabel?.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        //cell.textLabel?.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         if count == 0 {
             self.tableView.tableHeaderView = nil
         } else {
@@ -124,6 +124,18 @@ class TodoListVC: UITableViewController {
         tableView.reloadData()
     }
     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            do {
+                try realm.write {
+                    realm.delete(todoItems![indexPath.row])
+                }
+            } catch {
+                print(error)
+            }
+            tableView.reloadData()
+        }
+    }
     
 }
 
