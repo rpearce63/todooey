@@ -1,0 +1,6 @@
+framework module Pods_ToDooey {
+  umbrella header "Pods-ToDooey-umbrella.h"
+
+  export *
+  module * { export * }
+}
