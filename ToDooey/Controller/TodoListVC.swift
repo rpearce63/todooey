@@ -12,10 +12,12 @@ import RealmSwift
 class TodoListVC: UITableViewController {
 
     @IBOutlet weak var searchBar: UISearchBar!
+    lazy var realm = try! Realm()
+    
     var tableViewHeaderView : UIView?
     
     var todoItems : Results<Item>?
-    lazy var realm = try! Realm()
+    
     
     
     var selectedCategory : Category? {
