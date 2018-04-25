@@ -30,20 +30,15 @@ class CategoryVC: UITableViewController {
     
     //MARK: - Tableview Datasource methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = categories?.count ?? 1
-        return count == 0 ? 1 : count
+        return categories!.isEmpty ? 1 : categories!.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
         //let count = categories?.count ?? 1
-        if (categories?.count ?? 0) > 0 {
-            cell.textLabel?.text = categories?[indexPath.row].name
-            cell.backgroundColor = UIColor(hexString: (categories?[indexPath.row].backgroundColor)!)
-        } else {
-            cell.textLabel?.text = "No Categories Added Yet"
-            cell.backgroundColor = UIColor.white
-        }
+        
+            cell.textLabel?.text = !categories!.isEmpty ? categories?[indexPath.row].name : "No Categories Added Yet"
+        cell.backgroundColor = !categories!.isEmpty ? UIColor(hexString: (categories?[indexPath.row].backgroundColor)!) : UIColor.white
         
         return cell
     }
