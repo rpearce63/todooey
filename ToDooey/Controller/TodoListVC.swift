@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class TodoListVC: UITableViewController {
+class TodoListVC: SwipeKitTableController {
 
     @IBOutlet weak var searchBar: UISearchBar!
     lazy var realm = try! Realm()
@@ -39,6 +39,17 @@ class TodoListVC: UITableViewController {
     func loadItems() {
         todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
     
+        tableView.reloadData()
+    }
+    
+    override func deleteItem(indexPath: IndexPath) {
+        do {
+            try realm.write {
+                realm.delete(todoItems![indexPath.row])
+            }
+        } catch {
+            print(error)
+        }
         tableView.reloadData()
     }
     
@@ -91,7 +102,7 @@ class TodoListVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "todoItemCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         let count = todoItems?.count ?? 0
         if count > 0 {
             let item = todoItems![indexPath.row]
@@ -126,18 +137,18 @@ class TodoListVC: UITableViewController {
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            do {
-                try realm.write {
-                    realm.delete(todoItems![indexPath.row])
-                }
-            } catch {
-                print(error)
-            }
-            tableView.reloadData()
-        }
-    }
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            do {
+//                try realm.write {
+//                    realm.delete(todoItems![indexPath.row])
+//                }
+//            } catch {
+//                print(error)
+//            }
+//            tableView.reloadData()
+//        }
+//    }
     
 }
 

@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import ChameleonFramework
 
-class CategoryVC: UITableViewController {
+class CategoryVC: SwipeKitTableController {
 
     lazy var realm = try! Realm()
     
@@ -34,13 +34,24 @@ class CategoryVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
         //let count = categories?.count ?? 1
         
             cell.textLabel?.text = !categories!.isEmpty ? categories?[indexPath.row].name : "No Categories Added Yet"
         cell.backgroundColor = !categories!.isEmpty ? UIColor(hexString: (categories?[indexPath.row].backgroundColor)!) : UIColor.white
         
         return cell
+    }
+    
+    override func deleteItem(indexPath: IndexPath) {
+        do {
+            try realm.write {
+                realm.delete(categories![indexPath.row])
+            }
+        } catch {
+            print(error)
+        }
+        tableView.reloadData()
     }
     
     //MARK: - Data Manipulation methods
@@ -101,18 +112,18 @@ class CategoryVC: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            do {
-               try realm.write {
-                    realm.delete(categories![indexPath.row])
-                }
-            } catch {
-                print(error)
-            }
-        }
-        tableView.reloadData()
-    }
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+//        if editingStyle == .delete {
+//            do {
+//               try realm.write {
+//                    realm.delete(categories![indexPath.row])
+//                }
+//            } catch {
+//                print(error)
+//            }
+//        }
+//        tableView.reloadData()
+//    }
     
     
 }
