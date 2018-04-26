@@ -61,6 +61,7 @@ class TodoListVC: SwipeKitTableController {
         
         addItemAlert.addTextField { (itemTextField) in
             itemTextField.placeholder = "create new item"
+            itemTextField.autocapitalizationType = .sentences
             newItemTextField = itemTextField
         }
         

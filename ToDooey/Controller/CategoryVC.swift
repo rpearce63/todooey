@@ -81,6 +81,7 @@ class CategoryVC: SwipeKitTableController {
         
         alert.addTextField { (textField) in
             textField.placeholder = "enter new category"
+            textField.autocapitalizationType = .words
             alertTextField = textField
         }
         
