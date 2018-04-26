@@ -37,7 +37,7 @@ class CategoryVC: SwipeKitTableController {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         //let count = categories?.count ?? 1
         
-            cell.textLabel?.text = !categories!.isEmpty ? categories?[indexPath.row].name : "No Categories Added Yet"
+        cell.textLabel?.text = !categories!.isEmpty ? categories?[indexPath.row].name : "No Categories Added Yet"
         cell.backgroundColor = !categories!.isEmpty ? UIColor(hexString: (categories?[indexPath.row].backgroundColor)!) : UIColor.white
         
         return cell
@@ -101,6 +101,7 @@ class CategoryVC: SwipeKitTableController {
     //MARK - Tableview Delegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if categories?.count == 0 { return }
         performSegue(withIdentifier: "goToItems", sender: self)
     }
     

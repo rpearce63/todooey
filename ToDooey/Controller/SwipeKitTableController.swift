@@ -28,7 +28,6 @@ class SwipeKitTableController: UITableViewController,  SwipeTableViewCellDelegat
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { (action, indexPath) in
             self.deleteItem(indexPath: indexPath)
         }
-        
         deleteAction.image = UIImage(named: "delete")
         
         return [deleteAction]

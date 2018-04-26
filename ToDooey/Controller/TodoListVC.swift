@@ -124,7 +124,7 @@ class TodoListVC: SwipeKitTableController {
     // MARK: TableView Delegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        if todoItems?.count == 0 { return }
         if let item = todoItems?[indexPath.row] {
             do {
                 try realm.write {
