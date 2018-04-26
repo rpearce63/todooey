@@ -113,18 +113,4 @@ class CategoryVC: SwipeKitTableController {
         }
     }
     
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            do {
-//               try realm.write {
-//                    realm.delete(categories![indexPath.row])
-//                }
-//            } catch {
-//                print(error)
-//            }
-//        }
-//        tableView.reloadData()
-//    }
-    
-    
 }
