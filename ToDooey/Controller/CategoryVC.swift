@@ -14,8 +14,6 @@ class CategoryVC: SwipeKitTableController {
 
     lazy var realm = try! Realm()
     
-    //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
     var categories : Results<Category>?
     
     override func viewDidLoad() {
@@ -25,7 +23,7 @@ class CategoryVC: SwipeKitTableController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //self.tableView.backgroundView = view.setGradientBackground()
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: "1D98F6")
     }
     
     //MARK: - Tableview Datasource methods
@@ -36,10 +34,15 @@ class CategoryVC: SwipeKitTableController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         //let count = categories?.count ?? 1
-        
-        cell.textLabel?.text = !categories!.isEmpty ? categories?[indexPath.row].name : "No Categories Added Yet"
-        cell.backgroundColor = !categories!.isEmpty ? UIColor(hexString: (categories?[indexPath.row].backgroundColor)!) : UIColor.white
-        
+        if !(categories!.isEmpty) {
+            cell.textLabel?.text =  categories?[indexPath.row].name
+            cell.backgroundColor = UIColor(hexString: (categories?[indexPath.row].backgroundColor)!)
+            cell.textLabel?.textColor = ContrastColorOf(cell.backgroundColor!, returnFlat: true)
+        } else {
+            cell.textLabel?.text =   "No Categories Added Yet"
+            cell.backgroundColor =  FlatWhite()
+            cell.textLabel?.textColor =  ContrastColorOf(cell.backgroundColor!, returnFlat: true)
+        }
         return cell
     }
     
@@ -102,7 +105,10 @@ class CategoryVC: SwipeKitTableController {
     //MARK - Tableview Delegate methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if categories?.count == 0 { return }
+        if categories?.count == 0 {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
         performSegue(withIdentifier: "goToItems", sender: self)
     }
     

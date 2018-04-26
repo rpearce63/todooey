@@ -56,7 +56,7 @@
             </objects>
             <point key="canvasLocation" x="977" y="161"/>
         </scene>
-        <!--Categories-->
+        <!--Todoey-->
         <scene sceneID="r5T-fA-P6u">
             <objects>
                 <tableViewController id="gXs-Oi-8c5" customClass="CategoryVC" customModule="ToDooey" customModuleProvider="target" sceneMemberID="viewController">
@@ -80,9 +80,8 @@
                             <outlet property="delegate" destination="gXs-Oi-8c5" id="4jV-U4-tNu"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Categories" id="SQc-Wh-k8I">
+                    <navigationItem key="navigationItem" title="Todoey" id="SQc-Wh-k8I">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="vXf-49-UfE">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="addBtnPressed:" destination="gXs-Oi-8c5" id="c8u-T4-tM5"/>
                             </connections>
@@ -105,13 +104,16 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Px6-bk-HzM" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="1Jp-Pa-gEP">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="1Jp-Pa-gEP">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" red="0.0" green="0.32852089410000002" blue="0.57488495110000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.1252872686" green="0.64158819300000003" blue="0.85911875299999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                     </navigationBar>

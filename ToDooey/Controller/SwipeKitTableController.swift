@@ -12,7 +12,7 @@ import SwipeCellKit
 class SwipeKitTableController: UITableViewController,  SwipeTableViewCellDelegate {
     
     override func viewDidLoad() {
-        self.tableView.rowHeight = 65
+        self.tableView.rowHeight = 75
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
